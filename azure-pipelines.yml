@@ -54,6 +54,5 @@ jobs:
         npm install
       displayName: 'npm install'
     - script: |
-        npm install -g istanbul
-        istanbul cover tape node_modules/tape/bin/tape.js
+        npm run test-cov
       displayName: 'npm test'
