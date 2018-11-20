@@ -54,6 +54,5 @@ jobs:
         npm install
       displayName: 'npm install'
     - script: |
-        npm install mocha
-        npm run test-cov
+        istanbul cover tape node_modules/tape/bin/tape.js
       displayName: 'npm test'
