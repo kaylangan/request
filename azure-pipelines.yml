@@ -54,6 +54,5 @@ jobs:
         npm install
       displayName: 'npm install'
     - script: |
-        echo %cd%
-        npm run test-cov
+        SET PORT=8000& npm run test-cov
       displayName: 'npm test'
