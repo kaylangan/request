@@ -25,9 +25,12 @@ jobs:
       displayName: 'npm install'
     - script: |
         npm run test-cov
+      displayName: 'npm test'
+    - script: |
+        npm install -g codecov
         codecov
         cat ./coverage/lcov.info | coveralls
-      displayName: 'npm test'
+      displayName: 'codecov and coveralls'      
 #TODO: Webhooks for gitter
 
 - job: Windows
@@ -51,5 +54,5 @@ jobs:
         npm install
       displayName: 'npm install'
     - script: |
-        npm test
+        npm run test-cov
       displayName: 'npm test'
