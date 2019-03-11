@@ -1,0 +1,28 @@
+#
+# Steps for building and testing request. See jobs defined in .azure-pipelines.yml
+#
+
+
+steps:
+  - checkout: self
+
+  - task: NodeTool@0
+    inputs:
+      versionSpec: $(NODE_VERSION)
+      checkLatest: true
+    displayName: 'Install Node.js'
+
+  - script: npm install
+    displayName: 'npm install'
+
+  - script: |
+      npm test
+      npm run test-cov
+    displayName: 'npm test'
+
+  - script: |
+      npm install -g codecov
+      codecov
+      npm install -g coveralls
+      cat ./coverage/lcov.info | coveralls
+    displayName: 'codecov and coveralls'   
