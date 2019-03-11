@@ -36,6 +36,7 @@ jobs:
   steps:
     - script: git config --global core.autocrlf false
       displayName: 'Preserve LF endings on check out'
+    - template: .azure-pipelines-steps.yml
 
 variables:
   CHECK_LATEST: false # set to true on NodeLatest job
