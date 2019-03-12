@@ -15,10 +15,20 @@ steps:
   - script: npm install
     displayName: 'npm install'
 
-  - script: |
-      npm test
+
+  - script: npm run lint
+    displayName: 'Run lint'
+
+  - bash: |
+      test_files=(tests/test-*.js)
+      npm config set request:test-files ""
+      npm run test-ci -- ${test_files[*]}
       npm run test-cov
-    displayName: 'npm test'
+    displayName: 'Run test-ci and test-cov'
+
+  - script: npm run test-browser
+    displayName: 'Run tests'
+    condition: not(variables.WINDOWS)
 
   - script: |
       npm install -g codecov
@@ -27,5 +37,4 @@ steps:
       cat ./coverage/lcov.info | coveralls
     displayName: 'codecov and coveralls'
     env:
-      COVERALLS_REPO_TOKEN_SECRET: $(Coveralls.Repo.Token.Secret)
-
+      COVERALLS_REPO_TOKEN: $(COVERALLS_REPO_TOKEN_SECRET)

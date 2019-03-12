@@ -48,12 +48,15 @@
     "tunnel-agent": "^0.6.0",
     "uuid": "^3.3.2"
   },
+  "config": {
+    "test-files": "test/test-*.js"
+  },
   "scripts": {
     "test": "npm run lint && npm run test-ci && npm run test-browser",
-    "test-ci": "taper tests/test-*.js",
-    "test-cov": "istanbul cover ./node_modules/tape/bin/tape tests/test-*.js",
+    "test-ci": "cross-var taper $npm_config_test_files",
+    "test-cov": "cross-var istanbul cover ./node_modules/tape/bin/tape $npm_config_test_files",
     "test-browser": "node tests/browser/start.js",
-    "lint": "standard"
+    "lint": "standard" 
   },
   "devDependencies": {
     "bluebird": "^3.2.1",
@@ -62,6 +65,7 @@
     "buffer-equal": "^1.0.0",
     "codecov": "^3.0.4",
     "coveralls": "^3.0.2",
+    "cross-var": "^1.1.0",
     "function-bind": "^1.0.2",
     "istanbul": "^0.4.0",
     "karma": "^3.0.0",

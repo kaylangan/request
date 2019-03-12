@@ -56,6 +56,8 @@ tape('non-redirected request is timed', function (t) {
     t.equal((res.timingPhases.total > 0), true)
     t.equal((res.timingPhases.total <= (end - start)), true)
 
+    console.log(`total: ${res.timingPhases.total}; ${(end - start)}`)
+
     // validate there are no unexpected properties
     var propNames = []
     for (var propName in res.timings) {
@@ -86,7 +88,8 @@ tape('redirected request is timed with rollup', function (t) {
     t.equal((res.elapsedTime > 0), true)
     t.equal((res.responseStartTime > 0), true)
     t.equal((res.elapsedTime > redirectMockTime), true)
-    t.equal((res.responseStartTime > r.startTime), true)
+    t.equal((res.responseStartTime >= r.startTime), true)
+    console.log(`start: ${r.startTime}; ${(res.responseStartTime)}`)
     t.end()
   })
 })
