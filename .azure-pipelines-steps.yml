@@ -27,14 +27,17 @@ steps:
     displayName: 'Run test-ci and test-cov'
 
   - script: npm run test-browser
-    displayName: 'Run tests'
+    displayName: 'Run test-browser'
     condition: not(variables.WINDOWS)
 
+  - bash: bash <(curl -s https://codecov.io/bash)
+    displayName: "Publish codecov report"
+    env:
+      CODECOV_TOKEN: $(CODECOV_TOKEN)
+
   - script: |
-      npm install -g codecov
-      codecov
       npm install -g coveralls
       cat ./coverage/lcov.info | coveralls
-    displayName: 'codecov and coveralls'
+    displayName: 'Publish coveralls report'
     env:
       COVERALLS_REPO_TOKEN: $(COVERALLS_REPO_TOKEN_SECRET)
