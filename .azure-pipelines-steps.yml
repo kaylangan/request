@@ -23,7 +23,7 @@ steps:
       test_files=(tests/test-*.js)
       npm config set request:test-files ""
       npm run test-ci -- ${test_files[*]}
-      npm run test-cov
+      npm run test-cov -- ${test_files[*]}
     displayName: 'Run test-ci and test-cov'
 
   - script: npm run test-browser
