@@ -23,7 +23,7 @@ jobs:
     - template: .azure-pipelines-steps.yml  
 #TODO: Webhooks for gitter
 
-- job: Linux
+- job: Mac
   pool:
     vmImage: 'macos-10.13'
   strategy:
