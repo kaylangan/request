@@ -23,6 +23,23 @@ jobs:
     - template: .azure-pipelines-steps.yml  
 #TODO: Webhooks for gitter
 
+- job: Linux
+  pool:
+    vmImage: 'macos-10.13'
+  strategy:
+    matrix:
+      # Node6:
+      #   NODE_VERSION: '6.x'    
+      # Node8:
+      #   NODE_VERSION: '8.x'
+      Node10:
+        NODE_VERSION: '10.x'        
+      # NodeLatest:
+      #   NODE_VERSION: '>10.x'
+      #   CHECK_LATEST: true
+  steps:
+    - template: .azure-pipelines-steps.yml
+
 - job: Windows
   pool:
     vmImage: 'vs2017-win2016'
