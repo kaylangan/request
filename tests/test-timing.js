@@ -55,8 +55,12 @@ tape('non-redirected request is timed', function (t) {
     t.equal((res.timingPhases.download > 0), true)
     t.equal((res.timingPhases.total > 0), true)
     t.equal((res.timingPhases.total <= (end - start)), true)
-
-    console.log(`total: ${res.timingPhases.total}; ${(end - start)}`)
+    console.log(`-----------------------------------------------------------------------------------------------`)
+    console.log(`res.responseStartTime: ${res.responseStartTime}`)
+    console.log(`r.startTime: ${r.startTime}`)
+    console.log(`res.elapsedTime: ${res.elapsedTime}`)
+    console.log(`res.timingPhases.total: ${res.timingPhases.total}; end: ${(end)}; start: ${start}`)
+    console.log(`-----------------------------------------------------------------------------------------------`)
 
     // validate there are no unexpected properties
     var propNames = []
