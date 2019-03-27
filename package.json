@@ -56,7 +56,7 @@
     "test-ci": "cross-var taper $npm_config_test_files",
     "test-cov": "cross-var istanbul cover ./node_modules/tape/bin/tape $npm_config_test_files",
     "test-browser": "node tests/browser/start.js",
-    "lint": "standard" 
+    "lint": "standard"
   },
   "devDependencies": {
     "bluebird": "^3.2.1",
