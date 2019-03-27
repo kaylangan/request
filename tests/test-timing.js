@@ -42,7 +42,7 @@ tape('non-redirected request is timed', function (t) {
     t.equal(typeof res.timings, 'object')
     t.equal((res.elapsedTime > 0), true)
     t.equal((res.elapsedTime <= (end - start)), true)
-    t.equal((res.responseStartTime > r.startTime), true)
+    t.equal((res.responseStartTime >= r.startTime), true)
     t.equal((res.timings.socket >= 0), true)
     t.equal((res.timings.lookup >= res.timings.socket), true)
     t.equal((res.timings.connect >= res.timings.lookup), true)
