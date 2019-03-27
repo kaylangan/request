@@ -56,7 +56,7 @@ tape('non-redirected request is timed', function (t) {
     t.equal((res.timingPhases.download > 0), true)
     t.equal((res.timingPhases.total > 0), true)
     t.equal((res.timingPhases.total <= (end - start)), true)
-    
+
     // validate there are no unexpected properties
     var propNames = []
     for (var propName in res.timings) {
