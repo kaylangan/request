@@ -4,6 +4,7 @@ var server = require('./server')
 var request = require('../index')
 var tape = require('tape')
 var http = require('http')
+var now = require('performance-now')
 
 var plainServer = server.createServer()
 var redirectMockTime = 10
@@ -29,9 +30,9 @@ tape('setup', function (t) {
 tape('non-redirected request is timed', function (t) {
   var options = {time: true}
 
-  var start = new Date().getTime()
+  var start = now()
   var r = request('http://localhost:' + plainServer.port + '/', options, function (err, res, body) {
-    var end = new Date().getTime()
+    var end = now()
 
     t.equal(err, null)
     t.equal(typeof res.elapsedTime, 'number')
@@ -41,7 +42,7 @@ tape('non-redirected request is timed', function (t) {
     t.equal(typeof res.timings, 'object')
     t.equal((res.elapsedTime > 0), true)
     t.equal((res.elapsedTime <= (end - start)), true)
-    t.equal((res.responseStartTime > r.startTime), true)
+    t.equal((res.responseStartTime >= r.startTime), true)
     t.equal((res.timings.socket >= 0), true)
     t.equal((res.timings.lookup >= res.timings.socket), true)
     t.equal((res.timings.connect >= res.timings.lookup), true)
@@ -86,7 +87,7 @@ tape('redirected request is timed with rollup', function (t) {
     t.equal((res.elapsedTime > 0), true)
     t.equal((res.responseStartTime > 0), true)
     t.equal((res.elapsedTime > redirectMockTime), true)
-    t.equal((res.responseStartTime > r.startTime), true)
+    t.equal((res.responseStartTime >= r.startTime), true)
     t.end()
   })
 })

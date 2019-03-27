@@ -1,0 +1,65 @@
+#
+# Azure Pipelines configuration for building and testing request on Linux and Windows.
+#
+trigger:
+- master
+
+jobs:
+- job: Linux
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  strategy:
+    matrix:
+      Node6:
+        NODE_VERSION: '6.x'
+      Node8:
+        NODE_VERSION: '8.x'
+      Node10:
+        NODE_VERSION: '10.x'
+      NodeLatest:
+        NODE_VERSION: '>10.x'
+        CHECK_LATEST: true
+  steps:
+    - template: .azure-pipelines-steps.yml  
+
+- job: Mac
+  pool:
+    vmImage: 'macos-10.13'
+  strategy:
+    matrix:
+      Node6:
+        NODE_VERSION: '6.x'
+      Node8:
+        NODE_VERSION: '8.x'
+      Node10:
+        NODE_VERSION: '10.x'
+      NodeLatest:
+        NODE_VERSION: '>10.x'
+        CHECK_LATEST: true
+  steps:
+    - template: .azure-pipelines-steps.yml
+
+- job: Windows
+  pool:
+    vmImage: 'vs2017-win2016'
+  strategy:
+    matrix:
+      Node8:
+        NODE_VERSION: '8.x'
+        WINDOWS: true
+      Node10:
+        NODE_VERSION: '10.x' 
+        WINDOWS: true
+      NodeLatest:
+        NODE_VERSION: '>10.x'
+        CHECK_LATEST: true
+        WINDOWS: true
+  steps:
+    - script: git config --global core.autocrlf false
+      displayName: 'Preserve LF endings on check out'
+    - template: .azure-pipelines-steps.yml
+
+variables:
+  CHECK_LATEST: false # set to true on NodeLatest job
+  CI: true
+  FORCE_COLOR: 1

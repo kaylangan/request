@@ -1,0 +1,43 @@
+#
+# Steps for building and testing request. See jobs defined in .azure-pipelines.yml
+#
+
+
+steps:
+  - checkout: self
+
+  - task: NodeTool@0
+    inputs:
+      versionSpec: $(NODE_VERSION)
+      checkLatest: true
+    displayName: 'Install Node.js'
+
+  - script: npm install
+    displayName: 'npm install'
+
+
+  - script: npm run lint
+    displayName: 'Run lint'
+
+  - bash: |
+      test_files=(tests/test-*.js)
+      npm config set request:test-files ""
+      npm run test-ci -- ${test_files[*]}
+      npm run test-cov -- ${test_files[*]}
+    displayName: 'Run test-ci and test-cov'
+
+  - script: npm run test-browser
+    displayName: 'Run test-browser'
+    condition: not(variables.WINDOWS)
+
+  - bash: bash <(curl -s https://codecov.io/bash)
+    displayName: "Publish codecov report"
+    env:
+      CODECOV_TOKEN: $(CODECOV_TOKEN)
+
+  - script: |
+      npm install -g coveralls
+      cat ./coverage/lcov.info | coveralls
+    displayName: 'Publish coveralls report'
+    env:
+      COVERALLS_REPO_TOKEN: $(COVERALLS_REPO_TOKEN_SECRET)
